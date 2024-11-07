@@ -1,27 +1,11 @@
 # NOTE
-This repository is unstable. Until I add basic stable support (full support for G0/1, G92, G90/91, bed, chamber, and nozzle heating) for all Makerbot Gen5 Printers, please use with caution. I am not responsible for any broken printers, but do feel free to [make an issue](https://github.com/sckunkle/mbotmake/issues) with what happened.
+This repository is a fork from [here](https://github.com/sckunkle/mbotmake) to specifically control a modified Makerbot Replicator Mini+ 3D Printer for an alternate purpose.
 
-# mbotmake
-A gcode to .makerbot (Gen 5+) conversion tool, compatable with marlin gcode.
+# How to Run
+Run mbotmake with the path to your .gcode file as the first argument.
 
-# HOW TO USE 
-## Mac/Linux
-Install Python 3.8 by your preferred means, then run the mbotmake file in the root of this repository with the files you want to process.
-## Windows
-Download the exe from [here](https://github.com/sckunkle/mbotmake/releases) and drag and drop your gcode onto the executable.
+    python3 mbotmake.py /path/to/your/file.gcode 
 
-# PLANNED FEATURES
 
-* Create a Ultimaker Cura plugin
-* Add M600 (filament change) support
-* Refactor the script into readable code
-* Add working PursaSlicer config
-* Add makerbot slice ending wipe
-
-# REPORTING BUGS
-Please supply a copy of your printer config, the generated .makerbot file, the gcode from your slicer, the makerbot you're using, and a detailed description of the bug you're experiencing. 
-
-# CURRENTLY SUPPORTED PRINTERS
-If you have a makerbot that use .makerbot files that isn't in this list, contact me at aidanzcase@gmail.com so that I can test how to properly convert to the printer specifications. 
-
-* Makerbot Replicator Generation 5
+# Limitations
+These are the only support gcode commands: G0/G1, G92, M104, M106, M107, M140
