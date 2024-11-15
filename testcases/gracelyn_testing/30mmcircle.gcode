@@ -1,7 +1,7 @@
 ; **************** PARAMETERS USED DURING CALCULATIONS ****************
-; feedrate = 30 mm/s        Speed of XY travel
-; extrusion_per_mm = 0.7    Extrusion per amount of travel (mm/mm)
-; step_angle = 10           Angle in degrees between each point
+; feedrate = 30 mm/s = 1800 mm/min      Speed of XY travel
+; extrusion_per_mm = 0.7                Extrusion per amount of travel (mm/mm)
+; step_angle = 10                       Angle in degrees between each point
 
 ; -------------------------- Start ------------------------------------
 ; first move to top at center (x,y,z)(0,0,6)
@@ -15,7 +15,7 @@ M104 S180
 ; Made of 36 equally spaced points
 ; Extrusion of 3.66mm per move(based on distance apart)
 
-G1 X30.0000 Y0.0000
+G1 X30.0000 Y0.0000 F1800
 G1 X29.5442 Y5.2094 E-3.6605
 G1 X28.1908 Y10.2606 E-7.3211
 G1 X25.9808 Y15.0000 E-10.9816
@@ -55,6 +55,6 @@ G1 X29.5442 Y-5.2094 E-128.1189
 
 ; ------------------------------ End ----------------------------------
 ; End at top center
-G1 X0 Y0 Z6 F100
+G1 X0 Y0 Z6 F1000
 
 M104 S0 ; turn off hot end
