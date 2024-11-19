@@ -130,3 +130,6 @@ dmypy.json
 
 # Mac Metadata
 .DS_Store
+
+# Program Output Files
+# .makerbot
