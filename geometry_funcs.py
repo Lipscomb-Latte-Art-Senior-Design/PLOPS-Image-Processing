@@ -20,6 +20,36 @@ def generate_circular_arc_vertices(center=(0, 0), radius=1, arc=(0, 360), angula
     
     return points
 
+## By Gracelyn: generates points and puts them into the command list structure
+def generate_arc(center=(0, 0), radius=1, arc=(0, 360), angular_resolution=10, extrusion_per_mm=4.5, cummulative_extrusion=0):
+    # Calculating just the coordinates
+    points = generate_circular_arc_vertices(center=center, radius=radius, arc=arc, angular_resolution=angular_resolution)    
+    
+
+    # Putting the coordinates into the command list format
+    arc_commands = []
+
+    for i, point in enumerate(points):
+        if i == 0:
+            arc_commands.append((*point, None, None, travel_vel))
+            continue # end this iteration of the for loop
+        
+        # Dist from last point to this point
+        dist = math.sqrt((point[0] - points[i-1][0])**2 + (point[1] - points[i-1][1])**2)
+
+        time_taken = dist / draw_vel
+        extrude_dist = extrusion_per_mm * dist
+        extruder_speed = extrude_dist / time_taken
+        # is that not just extruder speed = extrude / draw_vel
+
+        modified_draw_vel = math.sqrt(draw_vel**2 + extruder_speed**2) # Specific to Makerbot
+
+        cummulative_extrusion += extrude_dist  # Value for extrusion command
+
+        arc_commands.append((*point, None, extrude_dist, modified_draw_vel))
+
+    return arc_commands
+
 # My command structure is Tuple (ABS X, ABS Y, ABS Z, REL E, VEL Travel) w/ None used for not specified
 # VEL is in mm/s. extrude is in mmE/mmT
 
