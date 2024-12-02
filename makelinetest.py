@@ -36,6 +36,6 @@ for y, e in zip(range(15, -50, -15), range(45, 50, 1)):
     commands += generate_line(start=(-40, y, None), end=(40, y, None), extrude=e, travel_vel=travel_vel, draw_vel=draw_vel, include_start=True)
 
 
-gcode_lines = commands_to_gcode(commands=commands)
+gcode_lines = commands_to_gcode(commands=commands, negative_extruder=False)
 
 print("\n".join(gcode_lines))
