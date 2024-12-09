@@ -31,7 +31,7 @@ primeDist = 200
 commands = []
 commands += generate_priming((-40, 30, 6), travel_vel=travel_vel, draw_vel=draw_vel, prime_dist=primeDist)
 
-for y, e in zip(range(15, -50, -15), range(45, 50, 1)):
+for y, e in zip(range(15, -50, -15), range(5, 10, 1)):
     e /= 10
     commands += generate_line(start=(-40, y, None), end=(40, y, None), extrude=e, travel_vel=travel_vel, draw_vel=draw_vel, include_start=True)
 
