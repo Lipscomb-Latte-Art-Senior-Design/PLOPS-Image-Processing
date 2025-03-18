@@ -9,7 +9,7 @@ M107 % Turn off Vibrator
 
 % === Move to Actual Center ===
 % This is so the user can center the cup.
-G1 X55.0 Y59.0 Z103.0
+G1 X55.0 Y59.0 Z103.0 F10000
 % G4 P1000 % Wait for move to finish
 % M117 Place your cup.
 % G4 P10000 % Wait 10000ms for user to place cup
@@ -24,25 +24,23 @@ G90
 % === Face Circle ===
 G1 Z97.0
 M106 S80 % Start Vibrator
-G2 I0.0 J-42.0 E3.0 F4000 % Circle with extrusion
+G2 I0.0 J-42.0 E3.0 % Circle with extrusion
 G2 I0.0 J-42.0 % Circle without extrusion
 M107 % Stop Vibrator
 G1 Z103.0 % Lift for Travel
-
-% End Shake
-G4 P750 % Wait 750ms before travel
+G4 P50 % Wait 750ms before travel
 
 % === Left Eye ===
 G1 X38 Y45.0
 G1 Z97.0
 M106 S80 % Start Vibrator
-G1 E0.3 % Drop the eye
+G1 E0.1 % Drop the eye
 G4 P400
 M107 % Stop Vibrator
 G1 Z103.0 % Lift for Travel
 
 % End Shake
-G4 P750 % Wait 750ms before travel
+G4 P50 % Wait 750ms before travel
 
 % === Right Eye ===
 G1 X78 Y45.0
@@ -52,6 +50,7 @@ G1 E0.3 % Drop the eye
 G4 P400
 M107 % Stop Vibrator
 G1 Z103.0 % Lift for Travel
+G4 P50 % Wait 750ms before travel
 
 % === Mouth ===
 G1 X38 Y78.0
@@ -64,7 +63,7 @@ M107 % Stop Vibrator
 G1 Z103.0 % Lift for Travel
 
 % End Shake
-G4 P750 % Wait 750ms before travel
+G4 P50 % Wait 750ms before travel
 
 % === Presentation Position ===
 G1 X0.0 Y107.0 Z110.0
