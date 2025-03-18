@@ -33,9 +33,28 @@ TRAVEL_HEIGHT = 103.0
 VIBRATOR_SPEED = 80
 TRAVEL_DELAY_MS = 50
 
-EXTRUSION_LINEAR_MULTIPLIER = 0.1           # mmE per mmT for linear moves
-EXTRUSION_EXP_MULTIPLIER = 0.05             # Multiplier for exponential extrusion computation
-EXTRUSION_EXP_EXP_MULTIPLIER = 0.3          # Multiplier of the exponent for exponential extrusion computation
+# These are the parameter for the extrusion curve pulled from the desmos graph.
+# https://www.desmos.com/calculator/8ubo1wfgou
+EXTRUSION_CURVE_a = (y3-y0)/(x3-x0)
+EXTRUSION_CURVE_x0 = 0
+EXTRUSION_CURVE_x1 = 118.1
+EXTRUSION_CURVE_x2 = 59.2
+EXTRUSION_CURVE_x3 = 155
+EXTRUSION_CURVE_y0 = 0.05
+EXTRUSION_CURVE_y1 = 0.05
+EXTRUSION_CURVE_y2 = 0.58
+EXTRUSION_CURVE_y3 = 1.575
+
+def extrusion_curve(t):
+    """
+    Calculate the extrusion curve value for a given t value. This is a cubic Bezier curve.
+    """
+    return (
+        (1-t)*((1-t)*((1-t)*EXTRUSION_CURVE_x0 + t*EXTRUSION_CURVE_x1) + t*((1-t)*EXTRUSION_CURVE_x1 + t*EXTRUSION_CURVE_x2))
+        + t*((1-t)*((1-t)*EXTRUSION_CURVE_x1 + t*EXTRUSION_CURVE_x2) + t*((1-t)*EXTRUSION_CURVE_x2 + t*EXTRUSION_CURVE_x3)),
+        (1-t)*((1-t)*((1-t)*EXTRUSION_CURVE_y0 + t*EXTRUSION_CURVE_y1) + t*((1-t)*EXTRUSION_CURVE_y1 + t*EXTRUSION_CURVE_y2))
+        + t*((1-t)*((1-t)*EXTRUSION_CURVE_y1 + t*EXTRUSION_CURVE_y2) + t*((1-t)*EXTRUSION_CURVE_y2 + t*EXTRUSION_CURVE_y3))
+    ) if t >= EXTRUSION_CURVE_x0 and t <= EXTRUSION_CURVE_x3 else EXTRUSION_CURVE_a * (t - EXTRUSION_CURVE_x0) + EXTRUSION_CURVE_y0
 
 def replace_z_and_feed(line):
     """
@@ -141,10 +160,8 @@ def modify_command(cmd, current_position):
             if z is not None:
                 new_position["Z"] = z
 
-    # Compute extrusion amounts using both exponential and linear multipliers.
-    exp_extrusion_amount = EXTRUSION_EXP_MULTIPLIER * math.exp(EXTRUSION_EXP_EXP_MULTIPLIER * length) + 0.05
-    linear_extrusion_amount = EXTRUSION_LINEAR_MULTIPLIER * length
-    extrusion_amount = min(exp_extrusion_amount, linear_extrusion_amount)
+    # Compute extrusion amounts.
+    extrusion_amount = extrusion_curve(length)
 
     extrusion_param = f"E{extrusion_amount:.3f}"
     length_comment = f"% length: {length:.3f}"
